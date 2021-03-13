@@ -1,9 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:todoapp/model/taskModel.dart';
 import 'package:todoapp/widgets/taskList.dart';
 
 import 'addtaskPage.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  List<Task> tasks = [
+    Task(
+      name: 'task 1',
+    ),
+    Task(
+      name: 'task 2',
+    ),
+    Task(
+      name: 'task 3',
+    ),
+    Task(
+      name: 'task 4',
+    ),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -11,7 +32,14 @@ class HomePage extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           showModalBottomSheet(
-              context: context, builder: (context) => AddTaskPage());
+              context: context,
+              builder: (context) => AddTaskPage((newTaskTitle) {
+                    // print(newTaskTitle);
+                    setState(() {
+                      tasks.add(Task(name: newTaskTitle));
+                    });
+                    Navigator.pop(context);
+                  }));
         },
         backgroundColor: Colors.blueGrey,
         child: Icon(Icons.add),
@@ -46,7 +74,7 @@ class HomePage extends StatelessWidget {
                         color: Colors.white),
                   ),
                   Text(
-                    '12 tasks',
+                    '${tasks.length} tasks',
                     style: TextStyle(fontSize: 15.0, color: Colors.white),
                   ),
                 ],
@@ -62,7 +90,7 @@ class HomePage extends StatelessWidget {
                       topLeft: Radius.circular(20),
                       topRight: Radius.circular(20),
                     )),
-                child: TaskList(),
+                child: TaskList(tasks: tasks),
               ),
             ))
           ],

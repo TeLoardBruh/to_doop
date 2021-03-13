@@ -3,42 +3,30 @@ import 'package:todoapp/model/taskModel.dart';
 import 'package:todoapp/widgets/taskTile.dart';
 
 class TaskList extends StatefulWidget {
+  final List<Task> tasks;
+  TaskList({this.tasks});
   @override
   _TaskListState createState() => _TaskListState();
 }
 
 class _TaskListState extends State<TaskList> {
 
-  List<Task> tasks = [
-    Task(
-      name: 'task 1',
-    ),
-    Task(
-      name: 'task 2',
-    ),
-    Task(
-      name: 'task 3',
-    ),
-    Task(
-      name: 'task 4',
-    ),
-  ];
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
       itemBuilder: (context, index) {
         return TaskTile(
-          tasktitle: tasks[index].name,
-          isChecked: tasks[index].isDone,
+          tasktitle: widget.tasks[index].name,
+          isChecked: widget.tasks[index].isDone,
           togglecheckbox: (checkBoxCallBack) {
             setState(() {
-              tasks[index].toggleDone();
+             widget.tasks[index].toggleDone();
             });
           },
         );
       },
-      itemCount: tasks.length,
+      itemCount: widget.tasks.length,
     );
   }
 }
